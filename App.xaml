@@ -1,0 +1,226 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Calculator"
+             x:Class="Calculator.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="labelCurrentNumber" TargetType="Label">
+                <Setter Property="FontSize" Value="40"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HorizontalTextAlignment" Value="End"/>
+            </Style>
+
+            <Style x:Key="labelPrevNumber" TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="HorizontalTextAlignment" Value="End"/>
+                <Setter Property="TextColor" Value="DimGrey"/>
+            </Style>
+
+            <Style x:Key="buttonNumStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#3737c4"/>
+                
+                <Setter Property="FontSize" Value="35"/>
+                <Setter Property="TextColor" Value="White"/>
+
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+
+                        <VisualStateGroup Name="CommonStates">
+
+                            <VisualState Name="Normal"/>
+
+                            <VisualState Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#555555"/>
+                                    <Setter Property="TextColor" Value="#AAAAAA"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            
+                            <VisualState Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#1f0c87"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#0a0a5e"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+
+                        </VisualStateGroup>
+
+                    </VisualStateGroupList>
+                </Setter>
+
+            </Style>
+
+            <Style x:Key="buttonOperationStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#193a9c"/>
+
+                <Setter Property="FontSize" Value="21"/>
+                <Setter Property="TextColor" Value="White"/>
+
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+
+                        <VisualStateGroup Name="CommonStates">
+
+                            <VisualState Name="Normal"/>
+
+                            <VisualState Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#555555"/>
+                                    <Setter Property="TextColor" Value="#AAAAAA"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#1f0c87"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#0a0a5e"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+
+                        </VisualStateGroup>
+
+                    </VisualStateGroupList>
+                </Setter>
+
+            </Style>
+
+            <Style x:Key="buttonOperatorStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#193a9c"/>
+
+                <Setter Property="FontSize" Value="35"/>
+                <Setter Property="TextColor" Value="White"/>
+
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+
+                        <VisualStateGroup Name="CommonStates">
+
+                            <VisualState Name="Normal"/>
+
+                            <VisualState Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#555555"/>
+                                    <Setter Property="TextColor" Value="#AAAAAA"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#1f0c87"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#0a0a5e"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+
+                        </VisualStateGroup>
+
+                    </VisualStateGroupList>
+                </Setter>
+
+            </Style>
+
+            <Style x:Key="buttonEqualStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#031859"/>
+
+                <Setter Property="FontSize" Value="35"/>
+                <Setter Property="TextColor" Value="White"/>
+
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+
+                        <VisualStateGroup Name="CommonStates">
+
+                            <VisualState Name="Normal"/>
+
+                            <VisualState Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#555555"/>
+                                    <Setter Property="TextColor" Value="#AAAAAA"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#0a0a5e"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#0a0a5e"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+
+                        </VisualStateGroup>
+
+                    </VisualStateGroupList>
+                </Setter>
+
+            </Style>
+
+            <Style x:Key="buttonMemStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="White"/>
+
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="TextColor" Value="Black"/>
+
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+
+                        <VisualStateGroup Name="CommonStates">
+
+                            <VisualState Name="Normal"/>
+
+                            <VisualState Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="#AAAAAA"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="DimGrey"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#c6c6cf"/>
+                                </VisualState.Setters>
+                            </VisualState>
+
+
+                        </VisualStateGroup>
+
+                    </VisualStateGroupList>
+                </Setter>
+
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
