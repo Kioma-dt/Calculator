@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Calculator.View;
+using Calculator.ViewModel;
+using Microsoft.Extensions.Logging;
 
 namespace Calculator
 {
@@ -14,6 +16,10 @@ namespace Calculator
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            builder.Services.AddSingleton<SinIntegralViewModel>();
+            builder.Services.AddSingleton<SinIntegralPage>();
+            builder.Services.AddSingleton<CalculatorPage>();
 
 #if DEBUG
     		builder.Logging.AddDebug();

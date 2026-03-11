@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace Calculator;
+namespace Calculator.View;
 
 public partial class CalculatorPage : ContentPage
 {
@@ -125,7 +125,7 @@ public partial class CalculatorPage : ContentPage
             currentNum = "0";
         }
 
-        currentNum += ".";
+        currentNum += ",";
 		UpdateUI();
 	}
 	void OperatorClick(object sender, EventArgs e)
@@ -184,16 +184,16 @@ public partial class CalculatorPage : ContentPage
 			return;
         }
 
-   //     if (operation == "x^(1/2)" && oldNum < 0)
-   //     {
-   //         isError = true;
-   //         errorMessage = "Invalid Input!";
-			//currentNum = "0";
-   //         UpdateUI();
-   //         return;
-   //     }
+		if (operation == "x^(1/2)" && oldNum < 0)
+		{
+			isError = true;
+			errorMessage = "Invalid Input!";
+			currentNum = "0";
+			UpdateUI();
+			return;
+		}
 
-        double newNum = operations[operation](oldNum);
+		double newNum = operations[operation](oldNum);
 
 		currentNum = newNum.ToString();
 		UpdateUI();

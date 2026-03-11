@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:Calculator.ViewModel"
+             xmlns:converter="clr-namespace:Calculator.Converter"
+             x:DataType="viewmodel:SinIntegralViewModel"
+             x:Class="Calculator.View.SinIntegralPage"
+             Title="SinIntegral">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:DoubleToPercentConverter x:Key="percentConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, *, Auto"
+          ColumnDefinitions="*, *"
+          ColumnSpacing="10"
+          Padding="10">
+        <Label 
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Text="{Binding State}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontSize="24"/>
+
+        <Grid Grid.Row="1"
+              Grid.ColumnSpan="2"
+            ColumnDefinitions="*, Auto">
+            <ProgressBar Grid.Row ="0" 
+                Grid.Column="0" 
+                VerticalOptions="Center"
+                Progress="{Binding Progress}"/>
+            <Label Grid.Row ="0" 
+                Grid.Column="1"
+                VerticalOptions="Center" 
+                Text="{Binding Path=Progress, Converter={StaticResource percentConverter}}"
+                FontSize="18"/>
+        </Grid>
+
+       
+
+        <Button Grid.Row ="2" 
+                Grid.Column="0" 
+                Command="{Binding CalculateCommand}" 
+                Text="Start"
+                FontSize="20"/>
+        <Button Grid.Row ="2"
+                Grid.Column="1"
+                Command="{Binding StopCommand}" 
+                Text="Stop"
+                FontSize="20"/>
+    </Grid>
+</ContentPage>
