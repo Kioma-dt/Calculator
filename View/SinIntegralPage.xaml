@@ -27,7 +27,8 @@
 
         <Grid Grid.Row="1"
               Grid.ColumnSpan="2"
-            ColumnDefinitions="*, Auto">
+            ColumnDefinitions="*, Auto"
+              ColumnSpacing="10">
             <ProgressBar Grid.Row ="0" 
                 Grid.Column="0" 
                 VerticalOptions="Center"

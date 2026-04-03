@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:Calculator.ViewModel"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:converter="clr-namespace:Calculator.Converter"
+             xmlns:entity="clr-namespace:Calculator.Entities"
+             x:Class="Calculator.View.ConverterPage"
+             x:DataType="viewmodel:ConverterViewModel"
+             Title="ConverterPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:WrongToRedConverter x:Key="wrongToRedConverter"/>
+            <converter:ShorteDecimalConverter x:Key="shorterDecimalConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*, Auto, *, Auto"
+          RowSpacing="10"
+          ColumnDefinitions="Auto, *"
+          ColumnSpacing="20">
+
+        <Label Grid.Row="0"
+               Grid.Column="0"
+               VerticalOptions="End"
+               FontSize ="40"
+               Margin="10,0,0,0"
+               Text="{Binding FromCurrency}"/>
+
+        <Border Grid.Row="0"
+               Grid.Column="1"
+               VerticalOptions="End">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10,10,10,10"/>
+            </Border.StrokeShape>
+            
+            <Entry 
+               Text="{Binding FromValueString}"
+                FontSize="20"
+                TextColor="{Binding IsFromValueStringCorrect, Converter={StaticResource wrongToRedConverter}}">
+                <Entry.Behaviors>
+                    <toolkit:EventToCommandBehavior 
+                    EventName="TextChanged"
+                    Command="{Binding ConvertCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
+        </Border>
+
+        <Label Grid.Row="2"
+           Grid.Column="0"
+           VerticalOptions="Start"
+           FontSize ="40"
+           Margin="10,0,0,0"
+           Text="{Binding ToCurrency}"/>
+
+        <Border Grid.Row="2"
+               Grid.Column="1"
+               VerticalOptions="Start">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10,10,10,10"/>
+            </Border.StrokeShape>
+            <Label Grid.Row="2"
+               Grid.Column="1"
+               VerticalOptions="Start"
+               FontSize="20"
+               Margin="8,9,8,11"
+               Text="{Binding ToValueString, Converter={StaticResource shorterDecimalConverter}}"/>
+        </Border>
+
+        <Button Grid.Row="3"
+                Grid.Column="0"
+                Text="Вернуться"
+                Margin="10,10,10,10"
+                BackgroundColor="#193a9c"
+                FontSize="24"
+                Command="{Binding GoBackCommand}"/>
+
+        <Button Grid.Row="3"
+                 Grid.Column="1"
+                 Text="Поменять"
+                 BackgroundColor="#193a9c"
+                 FontSize="24"
+                 Margin="0,10,10,10"
+                 Command="{Binding ChangeConvertDirectionCommand}"/>
+
+
+    </Grid>
+</ContentPage>

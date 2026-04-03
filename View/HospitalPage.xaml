@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:Calculator.ViewModel"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:entity="clr-namespace:Calculator.Entities"
+             x:Class="Calculator.View.HospitalPage"
+             x:DataType="viewmodel:HospitalViewModel"
+             Title="HospitalPage">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            EventName="Loaded"
+            Command="{Binding InitHospitalWardsCommand}"/>
+    </ContentPage.Behaviors>
+
+
+    <Grid RowDefinitions="Auto, *"
+          RowSpacing="10">
+
+        <Label Margin="30" 
+               FontSize="25"
+                Text="Input Hospital Ward: "
+               IsVisible="{Binding Selected}"/>
+
+        <Border Margin="10"
+                StrokeThickness="4"
+                Grid.Row="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="40,40,40,40"/>
+            </Border.StrokeShape>
+            
+            <Picker x:Name="WardPicker"
+                ItemsSource="{Binding HospitalWards}"
+                FontSize="25"
+                Margin="10">
+
+                <Picker.Behaviors>
+                    <toolkit:EventToCommandBehavior 
+                        EventName="SelectedIndexChanged"
+                        Command="{Binding UpdatePatientsCommand}"
+                        CommandParameter="{Binding Source={x:Reference WardPicker}, Path=SelectedItem}"/>
+                </Picker.Behaviors>
+
+            </Picker>
+            
+        </Border>
+
+        <CollectionView
+                ItemsSource="{Binding Patients}"
+                Grid.Row="1"
+                Margin="10,0,10,0">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation ="Vertical" ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="entity:Patient">
+
+                    <Border Margin="10,0,10,0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10,10,10,10"/>
+                        </Border.StrokeShape>
+
+                        <Grid RowDefinitions="*,*,*"
+                                  RowSpacing="5"
+                                Padding="10">
+
+                            <Grid Grid.Row="0"
+                                      ColumnDefinitions="Auto, *"
+                                      ColumnSpacing="6">
+
+                                <Label Grid.Column="0" Text="Name:" FontAttributes="Bold" FontSize="20"/>
+                                <Label Grid.Column ="1" Text="{Binding Name}" FontSize="20"/>
+
+                            </Grid>
+
+                            <Grid Grid.Row="1"
+                                      ColumnDefinitions="Auto, *"
+                                      ColumnSpacing="6">
+
+                                <Label Grid.Column="0" Text="Age:" FontAttributes="Bold" FontSize="20"/>
+                                <Label Grid.Column ="1" Text="{Binding Age}" FontSize="20"/>
+                            </Grid>
+
+                            <Grid Grid.Row="2"
+                                      ColumnDefinitions="Auto, *"
+                                      ColumnSpacing="6">
+
+                                <Label Grid.Column="0" Text="Diagnose:" FontAttributes="Bold" FontSize="20"/>
+                                <Label Grid.Column ="1" Text="{Binding Diagnoses}" FontSize="20"/>
+                            </Grid>
+
+
+                        </Grid>
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

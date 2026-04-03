@@ -16,7 +16,6 @@ namespace Calculator.ViewModel
         public event Action<double>? EvaluationCompleted;
         public SinIntegralViewModel()
         {
-            ProgressChanged += x => Progress = x;
             EvaluationCompleted += x => { State = $"Result: {x}"; Progress = 1; IsBusy = false; };
             State = "Welcome to .NET MAUI!";
         }
@@ -50,7 +49,8 @@ namespace Calculator.ViewModel
             State = "Calculating...";
             IsBusy = true;
             var token = _cancellationTokenSource.Token;
-
+            try
+            {
                 double result = await Task.Run(() =>
                 {
                     int temp;
@@ -67,14 +67,17 @@ namespace Calculator.ViewModel
                         }
                         localResult += Math.Sin(x) * 1e-8;
 
-                        //for (int i = 0; i < 10; i++)
-                        //{
-                        //    temp = 2 * 2;
-                        //}
+                        for (int i = 0; i < 10; i++)
+                        {
+                            temp = 2 * 2;
+                        }
 
                         if (++iterationsCount > iterationsToChangeProgress)
                         {
-                            ProgressChanged?.Invoke(x);
+                            MainThread.BeginInvokeOnMainThread(() =>
+                            {
+                                Progress = x;
+                            });
                             iterationsCount = 0;
                         }
                     }
@@ -88,18 +91,19 @@ namespace Calculator.ViewModel
                     return;
                 }
                 EvaluationCompleted?.Invoke(result);
+            }
+            catch (Exception) { }
+            finally { IsBusy = false; }
         }
 
         [RelayCommand(CanExecute = nameof(CanStop))]
-        public async Task Stop()
+        public void Stop()
         {
-            await Task.Run(() =>
-            {
-                _cancellationTokenSource.Cancel();
-                State = "Task Cancled!";
-                _cancellationTokenSource = new CancellationTokenSource();
-                IsBusy = false;
-            });
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
+            _cancellationTokenSource = new CancellationTokenSource();
+            State = "Task Cancled!";
+            IsBusy = false;
         }
     }
 

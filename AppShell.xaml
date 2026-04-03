@@ -16,5 +16,15 @@
         Title="SinIntegral"
         ContentTemplate="{DataTemplate local:SinIntegralPage}" />
     </FlyoutItem>
+    <FlyoutItem Title="Hospital">
+        <ShellContent
+        Title="Hospital"
+        ContentTemplate="{DataTemplate local:HospitalPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Rates">
+        <ShellContent
+        Title="Rates"
+        ContentTemplate="{DataTemplate local:RatesPage}" />
+    </FlyoutItem>
 
 </Shell>

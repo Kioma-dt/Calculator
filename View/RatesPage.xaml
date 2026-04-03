@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:Calculator.ViewModel"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:entity="clr-namespace:Calculator.Entities"
+             x:Class="Calculator.View.RatesPage"
+             x:DataType="viewmodel:RatesViewModel"
+             Title="RatesPage">
+    <Grid RowDefinitions="Auto, *, Auto"
+          RowSpacing="10">
+
+        <Border Grid.Row="0"
+            Margin="10"
+            StrokeThickness="4">
+
+            <Grid ColumnDefinitions="Auto, *"
+                ColumnSpacing="5"
+                Padding="5">
+
+                <Label Grid.Column="0"
+                    Text="Выберите Дату: " 
+                       FontSize="20"
+                       VerticalOptions="Center"/>
+                <DatePicker x:Name="DateEntry" 
+                    Grid.Column="1"
+                    Format="d"
+                    FontSize="20"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,0"
+                    Date="{Binding Date}">
+                    <DatePicker.MinimumDate>01.01.2000</DatePicker.MinimumDate>
+                </DatePicker>
+            </Grid>
+        </Border>
+
+
+        <CollectionView
+            ItemsSource="{Binding Rates}"
+            Grid.Row="1"
+            Margin="10,0,10,0">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation ="Vertical" ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="entity:Rate">
+
+                    <Border Margin="10,0,10,0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10,10,10,10"/>
+                        </Border.StrokeShape>
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding 
+                                                            Source={x:RelativeSource AncestorType={x:Type viewmodel:RatesViewModel}},
+                                                            Path=GoToConverterCommand}"
+                                                  CommandParameter="{Binding .}"/>
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="*,*"
+                             RowSpacing="5"
+                             Padding="10">
+
+                            <Grid Grid.Row="0"
+                              ColumnDefinitions="Auto, *"
+                              ColumnSpacing="6"
+                              HorizontalOptions="Center">
+
+                                <Label Grid.Column="0" Text="Валюта:" FontAttributes="Bold" FontSize="20"/>
+                                <Label Grid.Column ="1" Text="{Binding Cur_Name}" FontSize="20"/>
+
+                            </Grid>
+
+                            <Grid Grid.Row="1"
+                              ColumnDefinitions="*, Auto, 3*, 2*, Auto"
+                              ColumnSpacing="6">
+                                <Label Grid.Column="0" Text="{Binding Cur_Scale}" FontSize="20"/>
+                                <Label Grid.Column ="1" Text="{Binding Cur_Abbreviation}" FontAttributes="Bold" FontSize="20" HorizontalOptions="Start"/>
+                                <Label Grid.Column="2" Text="=" FontSize="20" HorizontalOptions="Center" FontAttributes="Bold"/>
+                                <Label Grid.Column ="3" Text="{Binding Cur_OfficialRate}" FontSize="20" HorizontalOptions="End"/>
+                                <Label Grid.Column ="4" Text="BYN" FontAttributes="Bold" FontSize="20"/>
+                            </Grid>
+
+                        </Grid>
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <ActivityIndicator Grid.Row="1"
+                   IsVisible="{Binding IsBusy}"
+                   IsRunning="{Binding IsBusy}"
+                   Color="Blue"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Center"
+                   HeightRequest="100"
+                   WidthRequest="100"/>
+
+        <Button Grid.Row="2"
+                Text="Обновить Валюты"
+                BackgroundColor="#193a9c"
+                FontSize="24"
+                Margin="10"
+                Command="{Binding GetRatesCommand}"/>
+    </Grid>
+</ContentPage>
