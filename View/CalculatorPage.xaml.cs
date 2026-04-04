@@ -247,7 +247,23 @@ public partial class CalculatorPage : ContentPage
 
 		double res = operators[currentOperator](x, y);
 
-		isEuqalMode = true;
+		if (res == double.PositiveInfinity || res == double.NegativeInfinity)
+		{
+            isError = true;
+            errorMessage = "Infinty";
+            currentNum = "0";
+            this.UpdateUI();
+        }
+
+        if (res == double.NaN)
+        {
+            isError = true;
+            errorMessage = "NaN";
+            currentNum = "0";
+            this.UpdateUI();
+        }
+
+        isEuqalMode = true;
         tempNum = prevNum;
         prevNum = currentNum;
 		currentNum = res.ToString();

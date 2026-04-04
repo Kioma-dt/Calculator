@@ -27,6 +27,12 @@ namespace Calculator.ViewModel
         public bool IsNotBusy => !IsBusy;
 
         [ObservableProperty]
+        public partial string ErrorMessage { get; set; } = String.Empty;
+
+        [ObservableProperty]
+        public partial bool IsError { get; set; } = false;
+
+        [ObservableProperty]
         public partial DateTime Date { get; set; } = DateTime.Now;
 
         [RelayCommand]
@@ -48,20 +54,45 @@ namespace Calculator.ViewModel
         public async Task GetRates()
         {
             IsBusy = true;
+            IsError = false;
+            var tempRates = Rates.Select(x => x).ToList();
             Rates.Clear();
-
-            var webRates = await _rateService.GetRatesAsync(Date);
-
-            webRates = webRates
-                .Select(r => r)
-                .Where(r => _requestedRates.Contains(r.Cur_Abbreviation))
-                .ToList();
-
-            foreach (var rate in webRates) 
+            try
             {
-                Rates.Add(rate);
+                var webRates = await _rateService.GetRatesAsync(Date);
+
+                webRates = webRates
+                    .Select(r => r)
+                    .Where(r => _requestedRates.Contains(r.Cur_Abbreviation))
+                    .ToList();
+
+                foreach (var rate in webRates)
+                {
+                    Rates.Add(rate);
+                }
             }
-            IsBusy = false;
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                IsError = true;
+                ErrorMessage = $"{ex.Message} Проверьте свое подключение к сети!";
+                foreach (var rate in tempRates)
+                {
+                    Rates.Add(rate);
+                }
+            }
+            catch (Exception ex)
+            {
+                IsError = true;
+                ErrorMessage = $"Error: {ex.Message}";
+                foreach (var rate in tempRates)
+                {
+                    Rates.Add(rate);
+                }
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

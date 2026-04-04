@@ -26,12 +26,15 @@ namespace Calculator.Services
 
                 if (rates is null)
                 {
-                    throw new Exception("Rates are Null!");
+                    throw new NullReferenceException("Rates are Null!");
                 }
 
                 return rates;
             }
-            catch 
+            catch (System.Net.Http.HttpRequestException){
+                throw;
+            }
+            catch (NullReferenceException)
             {
                 return Enumerable.Empty<Rate>();
             }
